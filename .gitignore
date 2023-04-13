@@ -1,0 +1,5 @@
+# Ignore model and test data files (too large to commit)
+dandelion_model
+dandelions
+grass
+data-for-332
