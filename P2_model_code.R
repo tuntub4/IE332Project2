@@ -40,7 +40,7 @@ for (i in seq_along(label_list)) {
   class_label <- label_list[class_idx]
   
   # Append the result to the results data frame
-  results <- rbind(results, data.frame(file = class_label, probability = max(pred), stringsAsFactors = FALSE))
+  results <- rbind(results, data.frame(file = label_list[i], probability = max(pred), stringsAsFactors = FALSE))
 }
 
 # Print the results
