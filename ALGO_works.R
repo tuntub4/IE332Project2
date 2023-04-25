@@ -1,8 +1,8 @@
 library(imager)
 
 # Define the input and output directories
-input_dir <- "C:/Users/49733/Downloads/P2 Files-20230419T185246Z-001/P2 Files/dandelions"
-output_dir <- "C:/Users/49733/Downloads/P2 Files-20230419T185246Z-001/P2 Files/dan2"
+input_dir <- "/home/jupyter/dandelions"
+output_dir <- "/home/jupyter/dan2"
 
 # Get a list of all image files in the input directory
 image_files <- list.files(input_dir, pattern = "\\.(jpg|jpeg|png)$", full.names = TRUE)
@@ -36,15 +36,10 @@ cat("Dandelions Pixel replacement operation complete. Modified images saved in",
 
 
 
-
-
-
-
-
 # Do the operation again for grass
 # Define the input and output directories
-input_dir <- "C:/Users/49733/Downloads/P2 Files-20230419T185246Z-001/P2 Files/grass"
-output_dir <- "C:/Users/49733/Downloads/P2 Files-20230419T185246Z-001/P2 Files/gra2"
+input_dir <- "/home/jupyter/grass"
+output_dir <- "/home/jupyter/gra2"
 
 # Get a list of all image files in the input directory
 image_files <- list.files(input_dir, pattern = "\\.(jpg|jpeg|png)$", full.names = TRUE)
