@@ -1,3 +1,5 @@
+# This algorithm aims to change 1% pixels for each picture that has the highest yellow/red value into green/blue, and for the grass, it does the opposite.  
+# Load the necessary packages
 library(imager)
 
 # Define the input and output directories
