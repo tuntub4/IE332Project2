@@ -6,6 +6,17 @@ library(imager)
 install_tensorflow(extra_packages="pillow")
 install_keras()
 
+# Load model
+model <- load_model_tf("/home/jupyter/dandelion_model")
+
+# Generate perturbed images for grass and display misclassifications
+create_images_constant(model, "/home/jupyter/grass/", "/home/jupyter/grass_constant/")
+show_preds("/home/jupyter/grass_constant/", 1)
+
+# Generate perturbed images for dandelions and display misclassifications
+create_images_constant(model, "/home/jupyter/dandelions/", "/home/jupyter/dandelions_constant/")
+show_preds(input_directory_path = "/home/jupyter/dandelions_constant/", 0)
+
 # Creates perturbed images by modifying a square of pixels to yellow for grass or green for dandelions
 # @params
 # model - keras CNN classifying model
@@ -52,11 +63,18 @@ create_images_constant <- function(model, input_directory_path, output_directory
   }
 }
 
-# Shows images that fooled the classifier, original_class is 0 for dandelion, 1 for grass
+# Shows image path that fooled the classifier and resulting prediction
+# @params
+# input_directory_path - file path of images to predict
+# original_class - original_class is 0 for dandelions, 1 for grass
 show_preds <- function(input_directory_path, original_class) {
   f = list.files(input_directory_path)
+  
+  # Calculate total images to determine percentage misclassified
   total_images = length(f)
   fooled_images = 0
+  
+  # Loop through images, predict result and display if misclassified
   for (i in f) {
     test_image <- image_load(paste(input_directory_path,i,sep=""),
                              target_size = c(224,224))
