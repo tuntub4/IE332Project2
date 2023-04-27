@@ -50,4 +50,26 @@ create_images_constant <- function(model, input_directory_path, output_directory
     
     save.image(img, paste(output_directory_path, i, sep=""))
   }
-}        
+}
+
+# Shows images that fooled the classifier, original_class is 0 for dandelion, 1 for grass
+show_preds <- function(input_directory_path, original_class) {
+  f = list.files(input_directory_path)
+  total_images = length(f)
+  fooled_images = 0
+  for (i in f) {
+    test_image <- image_load(paste(input_directory_path,i,sep=""),
+                             target_size = c(224,224))
+    x <- image_to_array(test_image)
+    x <- array_reshape(x, c(1, dim(x)))
+    x <- x/255
+    pred <- model %>% predict(x)
+    class <- which(pred > 0.5) - 1
+    if(class != original_class) {
+      fooled_images <- fooled_images + 1
+      print(paste("Image: ", i))
+      print(pred)
+    }
+  }
+  print(paste("Percentage Misclassified: ", round(fooled_images / total_images * 100,2), "%", sep = ""))
+}
