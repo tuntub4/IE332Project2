@@ -9,6 +9,10 @@ output_dir <- "/home/jupyter/dan2"
 # Scaning image files in the input directory and making them into a list
 image_files <- list.files(input_dir, pattern = "\\.(jpg|jpeg|png)$", full.names = TRUE)
 
+# Create vectors that will store the run time (To calculate complexity)
+wall_time <- c()
+image_number <- c()
+
 # Create the output directory if it doesn't exist, so it's not necessary to create a new folder by hand
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
@@ -16,6 +20,9 @@ if (!dir.exists(output_dir)) {
 
 # Loop through each image file
 for (i in seq_along(image_files)) {
+  # Record the start time
+  start_time <- Sys.time()
+  
   # Load the image
   img <- load.image(image_files[i])
   
@@ -30,12 +37,21 @@ for (i in seq_along(image_files)) {
   
   output_file <- file.path(output_dir, paste0("image_", i, ".jpg"))
   save.image(img, output_file)
+  
+  # Record the end time and calculate the time difference
+  end_time <- Sys.time()
+  time_difference <- difftime(end_time, start_time, units = "secs")
+  
+  # Put the time difference into the vector
+  wall_time <- c(wall_time, time_difference)
+  image_number <- c(image_number, i)
 }
 
 # Print a message which shows that the operation is complete
 cat("Dandelions Pixel replacement shift complete. Modified images saved in", output_dir, "\n")
 
-
+# Create a plot of wall time vs. image number
+plot(image_number, wall_time, xlab = "Image Number", ylab = "Wall Time (secs)")
 
 
 # Do the operation again for grass
