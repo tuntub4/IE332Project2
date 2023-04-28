@@ -49,8 +49,34 @@ contrast_color_overlay_square <- function(model, input_path) {
   return(img[center_x_indicies, center_y_indices,])
 }
 
+# Subalgorithm 2 - Yellow - Green Shift
+# Define the function
+YGS <- function(model, input_path) {
+  
+    img <- load.image(input_path)
+    
+    # Resize the image
+    img <- resize(img, 224, 224)
+    
+    # Calculate the threshold value for the 99th percentile of pixel values
+    threshold <- quantile(img, probs = 0.99, na.rm = TRUE)
+    
+    # Get the position of pixels above the threshold with red or yellow value and replace them with blue
+    high_pixels <- which(img[,,1] >= threshold | img[,,2] >= threshold)
+    x_index <- high_pixels %% nrow(img)
+    y_index <- ceiling(high_pixels / nrow(img))
+    img[high_pixels] <- c(0, 0, 1)
+    
+    # Get the position of pixels in the grass and replace them with yellow
+    low_pixels <- which(img[,,2] >= 0.5 & img[,,1] <= 0.5)
+    img[low_pixels] <- c(1, 1, 0)
+  
+  # Return the position of the changed pixels
+  return(img[x_index, y_index,])
+}
+
 alg1 <- contrast_color_overlay_square
-alg2 <- alg1 # Replace with other algorithms
+alg2 <- YGS
 alg3 <- alg1 # Replace with other algorithms
 alg4 <- alg1 # Replace with other algorithms
 alg5 <- alg1 # Replace with other algorithms
